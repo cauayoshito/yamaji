@@ -21,8 +21,12 @@ export default function Header() {
       }`}
     >
       <div className="container flex items-center justify-between h-16">
-        <Link href="/" className="font-semibold text-white">
-          Yamaji Studio
+        <Link href="/" className="flex items-center gap-2">
+          <img
+            src="/images/yamaji.jpg"
+            alt="Logo Yamaji Studio"
+            className="h-16 w-auto"
+          />
         </Link>
 
         {/* Desktop nav */}

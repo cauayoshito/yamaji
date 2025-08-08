@@ -7,13 +7,13 @@ const testimonials = [
     name: "Dieisson Vasques",
     role: "Personal Trainer — Método DV",
     text: "O site ficou fora da curva. Trouxe mais autoridade, facilitou o atendimento e deixou tudo mais profissional. A galera elogia direto.",
-    avatar: "/images/avatars/dieisson.jpg",
+    avatar: "/images/dieissonfoto.jpg",
   },
   {
     name: "Robert Emanuel",
     role: "Personal Trainer — Robert",
     text: "Foi além das minhas expectativas. O site ficou com minha identidade, ajudou a captar alunos e mostrar os resultados reais do meu trabalho.",
-    avatar: "/images/avatars/robert.jpg",
+    avatar: "/images/robert.jpg",
   },
   {
     name: "Paulo Henrique",
