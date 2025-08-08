@@ -6,7 +6,7 @@ import Link from "next/link";
 const projects = [
   {
     title: "Dieisson Vasques — Personal Trainer",
-    url: "https://www.dieisson.com.br",
+    url: "https://www.dieissonvasques.com.br",
     image: "/images/dieisson.jpg",
     tag: "Web • Identidade",
   },
