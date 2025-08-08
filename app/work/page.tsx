@@ -6,19 +6,19 @@ import Link from "next/link";
 const projects = [
   {
     title: "Dieisson Vasques — Personal Trainer",
-    url: "https://dieisson.vercel.app",
+    url: "https://www.dieisson.com.br",
     image: "/images/dieisson.jpg",
     tag: "Web • Identidade",
   },
   {
     title: "Proprium — Leilão de Imóveis",
-    url: "https://proprium.vercel.app",
+    url: "https://proprium-imoveis.vercel.app",
     image: "/images/proprium.jpg",
     tag: "Web • Branding",
   },
   {
     title: "AniPet — E-commerce Pet",
-    url: "https://anipet.vercel.app",
+    url: "https://anipet2.vercel.app",
     image: "/images/anipet.jpg",
     tag: "Web • Loja",
   },
