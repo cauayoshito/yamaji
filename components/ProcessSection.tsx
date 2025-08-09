@@ -137,7 +137,7 @@ export default function ProcessSection() {
           className="mt-12 text-center"
         >
           <a
-            href="https://wa.me/5571987194367?text=Quero%20come%C3%A7ar%20o%20projeto%20com%20a%20Yamaji%20Studio%20%F0%9F%9A%80"
+            href="https://wa.me/5571992258349?text=Quero%20come%C3%A7ar%20o%20projeto%20com%20a%20Yamaji%20Studio%20%F0%9F%9A%80"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 rounded-full bg-accent px-5 py-2.5 font-medium text-black
