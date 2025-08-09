@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import HoverCard from "@/components/HoverCard";
 
 interface CaseCardProps {
   title: string;
@@ -22,23 +23,26 @@ export default function CaseCard({
       href={link}
       target="_blank"
       rel="noopener noreferrer"
-      className="block border border-white/10 rounded-xl overflow-hidden group hover:shadow-2xl transition"
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.6, delay }}
-      viewport={{ once: true }}
+      className="block"
     >
-      <div className="relative w-full h-48 overflow-hidden">
-        <img
-          src={image}
-          alt={title}
-          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-        />
-      </div>
-      <div className="p-4 text-left bg-[#111]">
-        <h3 className="text-xl font-semibold mb-1">{title}</h3>
-        <p className="text-sm text-slate-400">{description}</p>
-      </div>
+      <HoverCard className="p-0 overflow-hidden">
+        <div className="relative w-full h-48 overflow-hidden">
+          <img
+            src={image}
+            alt={title}
+            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+          />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+        </div>
+        <div className="p-5">
+          <h3 className="text-lg font-semibold mb-1">{title}</h3>
+          <p className="text-sm text-slate-300">{description}</p>
+        </div>
+      </HoverCard>
     </motion.a>
   );
 }

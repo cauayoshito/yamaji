@@ -2,13 +2,37 @@
 @tailwind components;
 @tailwind utilities;
 
-:root { color-scheme: dark; }
-html, body { @apply bg-bg text-fg; }
-.container { @apply max-w-container mx-auto px-6; }
-.section { @apply py-24 md:py-32; }
-.h1 { @apply text-4xl md:text-6xl font-bold tracking-tight; }
-.lead { @apply mt-4 text-lg text-muted max-w-2xl; }
-.chip { @apply inline-flex items-center rounded-full border border-white/10 px-3 py-1 text-sm text-muted; }
-.btn { @apply inline-flex items-center gap-2 px-4 py-2 rounded-md border border-white/15 hover:bg-white/5; }
-.link { @apply underline decoration-white/30 hover:decoration-accent; }
-.badge { @apply inline-flex items-center px-2 py-0.5 rounded bg-accent/10 text-accent text-xs font-medium; }
+:root {
+  color-scheme: dark;
+}
+html,
+body {
+  @apply bg-bg text-fg;
+}
+.container {
+  @apply max-w-container mx-auto px-6;
+}
+.section {
+  @apply py-24 md:py-32;
+}
+.h1 {
+  @apply text-4xl md:text-6xl font-bold tracking-tight;
+}
+.lead {
+  @apply mt-4 text-lg text-muted max-w-2xl;
+}
+.chip {
+  @apply inline-flex items-center rounded-full border border-white/10 px-3 py-1 text-sm text-muted;
+}
+.btn {
+  @apply inline-flex items-center gap-2 px-4 py-2 rounded-md border border-white/15 hover:bg-white/5;
+}
+.link {
+  @apply underline decoration-white/30 hover:decoration-accent;
+}
+.badge {
+  @apply inline-flex items-center px-2 py-0.5 rounded bg-accent/10 text-accent text-xs font-medium;
+}
+:root {
+  --accent: #00ffb2;
+}

@@ -1,69 +1,67 @@
 "use client";
 
 import { motion } from "framer-motion";
+import HoverCard from "@/components/HoverCard";
 
 const testimonials = [
   {
     name: "Dieisson Vasques",
-    role: "Personal Trainer — Método DV",
-    text: "O site ficou fora da curva. Trouxe mais autoridade, facilitou o atendimento e deixou tudo mais profissional. A galera elogia direto.",
-    avatar: "/images/dieissonfoto.jpg",
+    role: "Personal Trainer",
+    text: "Processo objetivo e entrega acima do esperado. Meu site virou meu melhor vendedor.",
   },
   {
-    name: "Robert Emanuel",
-    role: "Personal Trainer — Robert",
-    text: "Foi além das minhas expectativas. O site ficou com minha identidade, ajudou a captar alunos e mostrar os resultados reais do meu trabalho.",
-    avatar: "/images/robert.jpg",
+    name: "Robert",
+    role: "Personal Trainer",
+    text: "Layout limpo, rápido e com ótima conversão no WhatsApp. Ficou muito profissional.",
   },
   {
-    name: "Paulo Henrique",
-    role: "Fundador — AniPet",
-    text: "A loja ficou incrível. Visual moderno, carrinho funcional e muito mais confiança pro cliente. Já impactou nas vendas.",
-    avatar: "/images/avatars/paulo.jpg",
+    name: "Paulo",
+    role: "AniPet",
+    text: "Organizamos catálogo, carrinho e checkout. A experiência ficou muito mais fluida.",
   },
   {
-    name: "Ricardo Monteiro",
-    role: "CEO — Proprium Investimentos",
-    text: "Transpareceu credibilidade e clareza. O projeto da Proprium ficou exatamente como a gente precisava pra atrair novos investidores.",
-    avatar: "/images/avatars/ricardo.jpg",
+    name: "Ricardo",
+    role: "Proprium Investimentos",
+    text: "Clareza na proposta de valor e credibilidade no design. Ajudou na geração de leads.",
   },
   {
-    name: "Juliana Toshiko",
-    role: "Diretora Criativa — Trevo Modas",
-    text: "O site e os materiais deram uma nova cara à marca. Trouxe mais confiança, estilo e ajudou a Trevo a crescer nas redes.",
-    avatar: "/images/avatars/juliana.jpg",
+    name: "Juliana",
+    role: "Trevo Modas",
+    text: "Visual alinhado à marca e navegação intuitiva. Clientes elogiam direto.",
   },
 ];
 
 export default function TestimonialsSection() {
   return (
-    <section className="bg-gradient-to-b from-[#031C32] to-[#00111E] py-20 px-6">
+    <section className="bg-gradient-to-b from-[#0B0B0B] to-[#020202] py-24 px-6">
       <div className="max-w-6xl mx-auto">
         <h2 className="text-center text-3xl md:text-5xl font-bold mb-12">
           O que nossos clientes dizem
         </h2>
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {testimonials.map((t, index) => (
             <motion.div
               key={t.name}
-              className="p-6 border border-slate-700 rounded-xl bg-[#021828]"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.6, delay: index * 0.06 }}
             >
-              <p className="italic text-slate-300 mb-4">“{t.text}”</p>
-              <div className="flex items-center space-x-4">
-                <img
-                  src={t.avatar}
-                  alt={`Foto de ${t.name}`}
-                  className="w-12 h-12 rounded-full object-cover"
-                />
-                <div>
-                  <p className="font-semibold">{t.name}</p>
-                  <p className="text-sm text-slate-400">{t.role}</p>
+              <HoverCard>
+                <p className="italic text-slate-300 mb-4 leading-relaxed">
+                  “{t.text}”
+                </p>
+                <div className="flex items-center gap-3">
+                  <div className="h-8 w-8 rounded-full bg-white/10 flex items-center justify-center text-xs">
+                    {t.name[0]}
+                  </div>
+                  <div>
+                    <p className="font-semibold">{t.name}</p>
+                    <p className="text-sm text-slate-400">{t.role}</p>
+                  </div>
                 </div>
-              </div>
+              </HoverCard>
             </motion.div>
           ))}
         </div>

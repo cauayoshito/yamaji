@@ -18,7 +18,7 @@ export default function Footer() {
         <div id="contato">
           <p className="font-medium text-fg">Contato</p>
           <p className="mt-2">yamaji.studio@gmail.com</p>
-          <p>+55 71 9 9225-8349</p>
+          <p>+55 71 99225-8349</p>
         </div>
       </div>
     </footer>
