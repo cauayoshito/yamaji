@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Menu, X, MessageCircle, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import HoverCard from "@/components/HoverCard";
@@ -12,11 +12,21 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const reduce = useReducedMotion();
+  const servicesBtnRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // fecha o dropdown se perder o foco
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setServicesOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
   }, []);
 
   return (
@@ -26,11 +36,13 @@ export default function Header() {
       }`}
       style={{ paddingTop: "env(safe-area-inset-top)" }}
     >
-      {/* h-14 no mobile para dar mais presença à logo */}
       <div className="container flex items-center justify-between h-14 md:h-16 px-4 md:px-0">
         {/* LOGO */}
-        <Link href="/" className="group flex items-center gap-2">
-          {/* logo maior no mobile (w-9/h-9) e ainda maior no desktop */}
+        <Link
+          href="/"
+          className="group flex items-center gap-2"
+          aria-label="Ir para a página inicial"
+        >
           <span className="relative inline-grid place-content-center h-9 w-9 md:h-10 md:w-10 rounded-lg">
             <Image
               src="/images/logo-yamaji-aqua.png"
@@ -38,12 +50,11 @@ export default function Header() {
               width={40}
               height={40}
               priority
-              className="h-8 w-8 md:h-9 md:w-9"
+              sizes="(max-width: 768px) 36px, 40px"
+              className="h-9 w-9 md:h-10 md:w-10"
             />
-            {/* glow sutil */}
             <span className="pointer-events-none absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 transition shadow-[0_0_18px_2px_var(--accent)]" />
           </span>
-          {/* esconde o texto da marca no mobile para manter header limpo */}
           <span className="hidden sm:inline font-semibold text-white">
             Yamaji Studio
           </span>
@@ -61,8 +72,12 @@ export default function Header() {
             onMouseLeave={() => setServicesOpen(false)}
           >
             <button
+              ref={servicesBtnRef}
               className="flex items-center gap-1 hover:text-white transition"
               aria-expanded={servicesOpen}
+              aria-haspopup="menu"
+              aria-controls="menu-servicos"
+              onClick={() => setServicesOpen((v) => !v)}
             >
               Serviços <ChevronDown className="w-4 h-4" />
             </button>
@@ -75,32 +90,40 @@ export default function Header() {
                   exit={reduce ? { opacity: 0 } : { opacity: 0, y: 6 }}
                   transition={{ duration: 0.18, ease: "easeOut" }}
                   className="absolute right-0 mt-2 w-64"
+                  id="menu-servicos"
+                  role="menu"
                 >
                   <HoverCard className="p-2">
                     <ul className="text-sm">
                       <li>
-                        <a
-                          href="#web"
+                        <Link
+                          href="/#web"
                           className="block px-3 py-2 rounded hover:bg-white/5"
+                          role="menuitem"
+                          onClick={() => setServicesOpen(false)}
                         >
                           Websites & Performance
-                        </a>
+                        </Link>
                       </li>
                       <li>
-                        <a
-                          href="#branding"
+                        <Link
+                          href="/#branding"
                           className="block px-3 py-2 rounded hover:bg-white/5"
+                          role="menuitem"
+                          onClick={() => setServicesOpen(false)}
                         >
                           Branding & Identidade
-                        </a>
+                        </Link>
                       </li>
                       <li>
-                        <a
-                          href="#seo"
+                        <Link
+                          href="/#seo"
                           className="block px-3 py-2 rounded hover:bg-white/5"
+                          role="menuitem"
+                          onClick={() => setServicesOpen(false)}
                         >
                           SEO & Conteúdo
-                        </a>
+                        </Link>
                       </li>
                     </ul>
                   </HoverCard>
@@ -124,11 +147,13 @@ export default function Header() {
           </a>
         </nav>
 
-        {/* BOTÃO MENU (alvo 44px) */}
+        {/* TOGGLE MOBILE */}
         <button
           className="md:hidden text-white grid place-content-center h-11 w-11 -mr-2"
           onClick={() => setMenuOpen((v) => !v)}
-          aria-label="Abrir menu"
+          aria-label={menuOpen ? "Fechar menu" : "Abrir menu"}
+          aria-expanded={menuOpen}
+          aria-controls="menu-mobile"
         >
           {menuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
@@ -138,6 +163,7 @@ export default function Header() {
       <AnimatePresence>
         {menuOpen && (
           <motion.div
+            id="menu-mobile"
             initial={reduce ? { opacity: 0 } : { opacity: 0, y: -6 }}
             animate={reduce ? { opacity: 1 } : { opacity: 1, y: 0 }}
             exit={reduce ? { opacity: 0 } : { opacity: 0, y: -6 }}
@@ -150,6 +176,7 @@ export default function Header() {
                   Projetos
                 </Link>
               </li>
+
               <li>
                 <details>
                   <summary className="cursor-pointer list-none flex items-center justify-between">
@@ -157,28 +184,33 @@ export default function Header() {
                   </summary>
                   <ul className="mt-2 ml-3 space-y-2 text-muted">
                     <li>
-                      <a href="#web" onClick={() => setMenuOpen(false)}>
+                      <Link href="/#web" onClick={() => setMenuOpen(false)}>
                         Websites & Performance
-                      </a>
+                      </Link>
                     </li>
                     <li>
-                      <a href="#branding" onClick={() => setMenuOpen(false)}>
+                      <Link
+                        href="/#branding"
+                        onClick={() => setMenuOpen(false)}
+                      >
                         Branding & Identidade
-                      </a>
+                      </Link>
                     </li>
                     <li>
-                      <a href="#seo" onClick={() => setMenuOpen(false)}>
+                      <Link href="/#seo" onClick={() => setMenuOpen(false)}>
                         SEO & Conteúdo
-                      </a>
+                      </Link>
                     </li>
                   </ul>
                 </details>
               </li>
+
               <li>
                 <Link href="/about" onClick={() => setMenuOpen(false)}>
                   Sobre
                 </Link>
               </li>
+
               <li>
                 <a
                   href="https://wa.me/5571987194367?text=Ol%C3%A1!%20Tenho%20interesse%20em%20criar%20um%20site%20com%20a%20Yamaji%20Studio."
