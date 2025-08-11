@@ -22,6 +22,12 @@ const projects = [
     image: "/images/anipet.jpg",
     tag: "Web • Loja",
   },
+  {
+    title: "Yamaji Ads Academy",
+    url: "https://yamajiads.vercel.app",
+    image: "/images/ads.jpg",
+    tag: "Web • Landing",
+  },
 ];
 
 export default function WorkPage() {
