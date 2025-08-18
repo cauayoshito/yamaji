@@ -1,34 +1,47 @@
-"use client";
+const rows = [
+  ["Design exclusivo e sob medida", true],
+  ["Estratégia de conversão", true],
+  ["Otimização para SEO", true],
+  ["Suporte humano real", true],
+  ["Sites mobile-first", true],
+  ["Performance otimizada", true],
+];
 
 export default function ComparisonTable() {
   return (
-    <section className="bg-[#0A0A0A] py-24 px-6">
-      <div className="max-w-5xl mx-auto text-center">
-        <h2 className="text-3xl md:text-5xl font-bold mb-12">
+    <section id="comparativo" className="bg-bg">
+      <div className="mx-auto max-w-container px-6 py-16">
+        <h2 className="text-center font-display text-3xl md:text-4xl text-fg">
           Yamaji Studio vs Sites Genéricos
         </h2>
-        <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse border border-white/10 text-sm md:text-base">
+
+        <div className="mt-8 overflow-x-auto">
+          <table className="w-full border-separate border-spacing-0 rounded-2xl border border-white/10 bg-card">
             <thead>
-              <tr className="bg-white/5">
-                <th className="px-6 py-4">Recursos</th>
-                <th className="px-6 py-4 text-green-400">Yamaji Studio</th>
-                <th className="px-6 py-4 text-red-400">Genéricos</th>
+              <tr className="text-left text-sm text-muted">
+                <th className="p-4 font-medium text-fg">Recursos</th>
+                <th className="p-4 font-medium text-fg">Yamaji Studio</th>
+                <th className="p-4 font-medium text-fg">Genéricos</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-white/10">
-              {[
-                ["Design exclusivo e sob medida", "✔️", "❌"],
-                ["Estratégia de conversão", "✔️", "❌"],
-                ["Otimização para SEO", "✔️", "❌"],
-                ["Suporte humano real", "✔️", "❌"],
-                ["Sites mobile-first", "✔️", "✔️"],
-                ["Performance otimizada", "✔️", "❌"],
-              ].map(([feature, yamaji, outro]) => (
-                <tr key={feature}>
-                  <td className="px-6 py-4">{feature}</td>
-                  <td className="px-6 py-4">{yamaji}</td>
-                  <td className="px-6 py-4">{outro}</td>
+            <tbody>
+              {rows.map(([label, ok], idx) => (
+                <tr key={String(label)} className="border-t border-white/10">
+                  <td className="p-4">{label}</td>
+                  <td className="p-4">
+                    {ok ? (
+                      <span className="inline-flex items-center gap-2 text-accent">
+                        <span className="h-2 w-2 rounded-full bg-accent" /> ✔
+                      </span>
+                    ) : (
+                      "-"
+                    )}
+                  </td>
+                  <td className="p-4">
+                    <span className="inline-flex items-center gap-2 text-red-400">
+                      <span className="h-2 w-2 rounded-full bg-red-400" /> ✖
+                    </span>
+                  </td>
                 </tr>
               ))}
             </tbody>

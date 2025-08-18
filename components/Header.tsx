@@ -1,231 +1,157 @@
 "use client";
 
-import Link from "next/link";
-import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { Menu, X, MessageCircle, ChevronDown } from "lucide-react";
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import HoverCard from "@/components/HoverCard";
+import { Menu, X } from "lucide-react";
+import Image from "next/image";
+
+const links = [
+  { href: "#servicos", label: "Serviços" },
+  { href: "#destaques", label: "Diferenciais" },
+  { href: "#processo", label: "Processo" },
+  { href: "#cases", label: "Cases" },
+  { href: "#projetos", label: "Projetos" },
+  { href: "#comparativo", label: "Comparativo" },
+  { href: "#contato", label: "Contato" },
+];
 
 export default function Header() {
+  const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [servicesOpen, setServicesOpen] = useState(false);
-  const reduce = useReducedMotion();
-  const servicesBtnRef = useRef<HTMLButtonElement>(null);
+  const [active, setActive] = useState<string>("#"); // hash da seção ativa
+  const menuRef = useRef<HTMLDivElement>(null);
 
+  // sombra ao rolar
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
-    window.addEventListener("scroll", onScroll);
+    const onScroll = () => setScrolled(window.scrollY > 4);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // fecha o dropdown se perder o foco
+  // highlight de link ativo com IntersectionObserver
+  useEffect(() => {
+    const sections = links
+      .map((l) => document.querySelector<HTMLElement>(l.href))
+      .filter(Boolean) as HTMLElement[];
+
+    if (!sections.length) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (visible?.target?.id) setActive(`#${visible.target.id}`);
+      },
+      { rootMargin: "-40% 0px -50% 0px", threshold: [0, 0.25, 0.5, 0.75, 1] }
+    );
+    sections.forEach((s) => observer.observe(s));
+    return () => observer.disconnect();
+  }, []);
+
+  // A11y do menu: fecha com Esc, trava scroll do body
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setServicesOpen(false);
+      if (e.key === "Escape") setOpen(false);
     };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, []);
+    document.addEventListener("keydown", onKey);
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = "";
+    };
+  }, [open]);
+
+  const navLinkCls = (href: string) =>
+    [
+      "text-sm transition",
+      active === href ? "text-fg" : "text-muted hover:text-fg",
+    ].join(" ");
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition ${
-        scrolled ? "backdrop-blur bg-black/40 border-b border-white/10" : ""
-      }`}
-      style={{ paddingTop: "env(safe-area-inset-top)" }}
+      className={[
+        "fixed top-0 z-50 w-full border-b border-white/10 bg-bg/60 backdrop-blur-md",
+        scrolled ? "shadow-[0_4px_24px_rgba(0,0,0,0.35)]" : "",
+      ].join(" ")}
     >
-      <div className="container flex items-center justify-between h-14 md:h-16 px-4 md:px-0">
-        {/* LOGO */}
-        <Link
-          href="/"
-          className="group flex items-center gap-2"
-          aria-label="Ir para a página inicial"
+      <div className="container flex h-16 items-center justify-between">
+        {/* Logo */}
+        <a
+          href="#"
+          className="flex items-center gap-2"
+          aria-label="Yamaji Studio — ir para o topo"
         >
-          <span className="relative inline-grid place-content-center h-9 w-9 md:h-10 md:w-10 rounded-lg">
-            <Image
-              src="/images/logo-yamaji-aqua.png"
-              alt="Yamaji Studio"
-              width={40}
-              height={40}
-              priority
-              sizes="(max-width: 768px) 36px, 40px"
-              className="h-9 w-9 md:h-10 md:w-10"
-            />
-            <span className="pointer-events-none absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 transition shadow-[0_0_18px_2px_var(--accent)]" />
-          </span>
-          <span className="hidden sm:inline font-semibold text-white">
-            Yamaji Studio
-          </span>
-        </Link>
+          <Image
+            src="/images/logo-yamaji-aqua.png"
+            alt="Yamaji Studio"
+            width={36}
+            height={36}
+            className="h-9 w-auto"
+            priority
+          />
+        </a>
 
-        {/* NAV DESKTOP */}
-        <nav className="hidden md:flex items-center gap-6 text-sm text-muted">
-          <Link href="/work" className="hover:text-white transition">
-            Projetos
-          </Link>
-
-          <div
-            className="relative"
-            onMouseEnter={() => setServicesOpen(true)}
-            onMouseLeave={() => setServicesOpen(false)}
-          >
-            <button
-              ref={servicesBtnRef}
-              className="flex items-center gap-1 hover:text-white transition"
-              aria-expanded={servicesOpen}
-              aria-haspopup="menu"
-              aria-controls="menu-servicos"
-              onClick={() => setServicesOpen((v) => !v)}
-            >
-              Serviços <ChevronDown className="w-4 h-4" />
-            </button>
-
-            <AnimatePresence>
-              {servicesOpen && (
-                <motion.div
-                  initial={reduce ? { opacity: 0 } : { opacity: 0, y: 6 }}
-                  animate={reduce ? { opacity: 1 } : { opacity: 1, y: 0 }}
-                  exit={reduce ? { opacity: 0 } : { opacity: 0, y: 6 }}
-                  transition={{ duration: 0.18, ease: "easeOut" }}
-                  className="absolute right-0 mt-2 w-64"
-                  id="menu-servicos"
-                  role="menu"
-                >
-                  <HoverCard className="p-2">
-                    <ul className="text-sm">
-                      <li>
-                        <Link
-                          href="/#web"
-                          className="block px-3 py-2 rounded hover:bg-white/5"
-                          role="menuitem"
-                          onClick={() => setServicesOpen(false)}
-                        >
-                          Websites & Performance
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          href="/#branding"
-                          className="block px-3 py-2 rounded hover:bg-white/5"
-                          role="menuitem"
-                          onClick={() => setServicesOpen(false)}
-                        >
-                          Branding & Identidade
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          href="/#seo"
-                          className="block px-3 py-2 rounded hover:bg-white/5"
-                          role="menuitem"
-                          onClick={() => setServicesOpen(false)}
-                        >
-                          SEO & Conteúdo
-                        </Link>
-                      </li>
-                    </ul>
-                  </HoverCard>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-
-          <Link href="/about" className="hover:text-white transition">
-            Sobre
-          </Link>
-
-          <a
-            href="https://wa.me/5571987194367?text=Ol%C3%A1!%20Tenho%20interesse%20em%20criar%20um%20site%20com%20a%20Yamaji%20Studio."
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-[var(--accent)] text-black font-medium px-4 py-2 rounded hover:opacity-90 transition flex items-center gap-2"
-          >
-            <MessageCircle className="w-4 h-4" />
+        {/* Desktop nav */}
+        <nav
+          className="hidden items-center gap-6 md:flex"
+          aria-label="Navegação principal"
+        >
+          {links.map((l) => (
+            <a key={l.href} href={l.href} className={navLinkCls(l.href)}>
+              {l.label}
+            </a>
+          ))}
+          <a href="#contato" className="btn btn-primary ml-2 text-sm">
             Fale conosco
           </a>
         </nav>
 
-        {/* TOGGLE MOBILE */}
+        {/* Mobile nav toggle */}
         <button
-          className="md:hidden text-white grid place-content-center h-11 w-11 -mr-2"
-          onClick={() => setMenuOpen((v) => !v)}
-          aria-label={menuOpen ? "Fechar menu" : "Abrir menu"}
-          aria-expanded={menuOpen}
-          aria-controls="menu-mobile"
+          type="button"
+          className="md:hidden text-muted hover:text-fg"
+          onClick={() => setOpen((s) => !s)}
+          aria-label={open ? "Fechar menu" : "Abrir menu"}
+          aria-expanded={open}
+          aria-controls="mobile-menu"
         >
-          {menuOpen ? <X size={24} /> : <Menu size={24} />}
+          {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
         </button>
       </div>
 
-      {/* MENU MOBILE */}
-      <AnimatePresence>
-        {menuOpen && (
-          <motion.div
-            id="menu-mobile"
-            initial={reduce ? { opacity: 0 } : { opacity: 0, y: -6 }}
-            animate={reduce ? { opacity: 1 } : { opacity: 1, y: 0 }}
-            exit={reduce ? { opacity: 0 } : { opacity: 0, y: -6 }}
-            transition={{ duration: 0.2, ease: "easeOut" }}
-            className="md:hidden bg-black/90 text-white backdrop-blur-sm border-t border-white/10 px-6 py-4"
+      {/* Mobile menu */}
+      {open && (
+        <div
+          id="mobile-menu"
+          ref={menuRef}
+          className="md:hidden border-t border-white/10 bg-bg/95 backdrop-blur-md"
+          role="dialog"
+          aria-modal="true"
+        >
+          <nav
+            className="container flex flex-col gap-4 py-6"
+            aria-label="Navegação móvel"
           >
-            <ul className="space-y-4 text-sm">
-              <li>
-                <Link href="/work" onClick={() => setMenuOpen(false)}>
-                  Projetos
-                </Link>
-              </li>
-
-              <li>
-                <details>
-                  <summary className="cursor-pointer list-none flex items-center justify-between">
-                    <span>Serviços</span> <ChevronDown className="w-4 h-4" />
-                  </summary>
-                  <ul className="mt-2 ml-3 space-y-2 text-muted">
-                    <li>
-                      <Link href="/#web" onClick={() => setMenuOpen(false)}>
-                        Websites & Performance
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        href="/#branding"
-                        onClick={() => setMenuOpen(false)}
-                      >
-                        Branding & Identidade
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/#seo" onClick={() => setMenuOpen(false)}>
-                        SEO & Conteúdo
-                      </Link>
-                    </li>
-                  </ul>
-                </details>
-              </li>
-
-              <li>
-                <Link href="/about" onClick={() => setMenuOpen(false)}>
-                  Sobre
-                </Link>
-              </li>
-
-              <li>
-                <a
-                  href="https://wa.me/5571987194367?text=Ol%C3%A1!%20Tenho%20interesse%20em%20criar%20um%20site%20com%20a%20Yamaji%20Studio."
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 bg-[var(--accent)] text-black font-medium px-4 py-2 rounded hover:opacity-90 transition"
-                >
-                  <MessageCircle className="w-4 h-4" />
-                  Fale conosco
-                </a>
-              </li>
-            </ul>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            {links.map((l) => (
+              <a
+                key={l.href}
+                href={l.href}
+                className={navLinkCls(l.href)}
+                onClick={() => setOpen(false)}
+              >
+                {l.label}
+              </a>
+            ))}
+            <a
+              href="#contato"
+              className="btn btn-primary justify-center text-sm"
+              onClick={() => setOpen(false)}
+            >
+              Fale conosco
+            </a>
+          </nav>
+        </div>
+      )}
     </header>
   );
 }
