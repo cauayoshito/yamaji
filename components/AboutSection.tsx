@@ -1,13 +1,30 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CheckCircle2, Loader2 } from "lucide-react";
 
-const WEBHOOK_URL = process.env.NEXT_PUBLIC_WEBHOOK_URL || "/api/lead"; // fallback local
-// defina na Vercel
+const WEBHOOK_URL = process.env.NEXT_PUBLIC_WEBHOOK_URL || "/api/lead";
 
 type Lead = { nome: string; whatsapp: string; objetivo: string };
 const onlyDigits = (s: string) => s.replace(/\D/g, "");
+
+// helper para ler UTMs
+function getUTMs() {
+  if (typeof window === "undefined") return {};
+  const url = new URL(window.location.href);
+  const params = Object.fromEntries(url.searchParams.entries());
+  const utm: Record<string, string> = {};
+  [
+    "utm_source",
+    "utm_medium",
+    "utm_campaign",
+    "utm_content",
+    "utm_term",
+  ].forEach((k) => {
+    if (params[k]) utm[k] = params[k];
+  });
+  return utm;
+}
 
 export default function AboutSection() {
   const [form, setForm] = useState<Lead>({
@@ -39,6 +56,8 @@ export default function AboutSection() {
         whatsapp: onlyDigits(form.whatsapp),
         objetivo: form.objetivo.trim(),
         source: typeof window !== "undefined" ? window.location.href : "",
+        referrer: typeof document !== "undefined" ? document.referrer : "",
+        utm: getUTMs(),
         userAgent: typeof navigator !== "undefined" ? navigator.userAgent : "",
       };
 
@@ -58,7 +77,7 @@ export default function AboutSection() {
       }
 
       setOk(true);
-      setMsg("Recebemos seu contato! Vamos te chamar no WhatsApp 🚀");
+      setMsg("Recebido! Em instantes te chamamos no WhatsApp 🚀");
       setForm({ nome: "", whatsapp: "", objetivo: "" });
 
       // abrir WhatsApp opcional
@@ -66,7 +85,7 @@ export default function AboutSection() {
         const link = `https://wa.me/55${
           payload.whatsapp
         }?text=${encodeURIComponent(
-          "Oi! Quero uma proposta da Yamaji Studio."
+          "Oi! Quero o diagnóstico gratuito da Yamaji Studio."
         )}`;
         window.open(link, "_blank", "noopener,noreferrer");
       }
@@ -86,33 +105,32 @@ export default function AboutSection() {
       <div className="container grid items-start gap-12 md:grid-cols-2">
         {/* Lado de texto / diferenciais */}
         <div>
-          <span className="chip">Por que a Yamaji?</span>
+          <span className="chip">Diagnóstico gratuito</span>
           <h2 className="mt-4 h2">
-            Por que escolher a{" "}
-            <span className="text-accent">Yamaji Studio</span>?
+            Descubra por que seu site não vende e como virar o jogo
           </h2>
           <p className="lead">
-            Diferente de sites prontos, criamos projetos estratégicos focados em
-            **resultado**.
+            Em 15 minutos avaliamos <b>Site</b>, <b>Ads</b> e <b>IA</b>. Você
+            sai com um plano de ação claro.
           </p>
 
           <ul className="mt-6 space-y-3 text-muted">
             <li className="flex items-start gap-3">
               <CheckCircle2 className="mt-0.5 h-5 w-5 text-accent" />
-              <span>Identidade fiel ao seu negócio</span>
+              <span>Insights práticos (sem jargão técnico)</span>
             </li>
             <li className="flex items-start gap-3">
               <CheckCircle2 className="mt-0.5 h-5 w-5 text-accent" />
-              <span>Sites rápidos, responsivos e com performance</span>
+              <span>Prioridades que destravam conversão em 30 dias</span>
             </li>
             <li className="flex items-start gap-3">
               <CheckCircle2 className="mt-0.5 h-5 w-5 text-accent" />
-              <span>Foco total em conversão e SEO técnico</span>
+              <span>Seguimos para proposta só se fizer sentido pra você</span>
             </li>
           </ul>
 
           <p className="mt-6 font-semibold text-fg">
-            Preencha e receba uma proposta personalizada (sem compromisso):
+            Preencha e receba seu link de agendamento:
           </p>
         </div>
 
@@ -161,6 +179,9 @@ export default function AboutSection() {
               placeholder="(71) 99999-9999"
               className="w-full rounded-md bg-bg/60 border border-white/20 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent"
             />
+            <p className="mt-1 text-xs text-muted">
+              Usaremos apenas para enviar o link de agendamento. Sem spam.
+            </p>
           </div>
 
           <div>
@@ -191,7 +212,7 @@ export default function AboutSection() {
                 <Loader2 className="h-4 w-4 animate-spin" /> Enviando…
               </span>
             ) : (
-              "Receber proposta"
+              "Quero meu diagnóstico gratuito"
             )}
           </button>
 
@@ -199,8 +220,7 @@ export default function AboutSection() {
           {ok === false && <p className="text-sm text-red-400">{msg}</p>}
 
           <p className="small-muted">
-            Ao enviar, concorda em receber um contato da Yamaji Studio. Não
-            fazemos spam.
+            Ao enviar, você concorda em receber um contato da Yamaji Studio.
           </p>
         </form>
       </div>

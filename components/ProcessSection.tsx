@@ -1,71 +1,78 @@
-import {
-  ClipboardList,
-  GitBranch,
-  MonitorSmartphone,
-  TrendingUp,
-} from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { MessageCircle } from "lucide-react";
 
-const steps = [
-  {
-    title: "Diagnóstico",
-    desc: "Entrevista, auditoria de site e presença digital.",
-    Icon: ClipboardList,
-  },
-  {
-    title: "Estratégia",
-    desc: "Posicionamento, tom de marca e arquitetura do site.",
-    Icon: GitBranch,
-  },
-  {
-    title: "Execução",
-    desc: "UI/UX, copy, SEO técnico, performance e acessibilidade.",
-    Icon: MonitorSmartphone,
-  },
-  {
-    title: "Crescimento",
-    desc: "Publicação, analytics, testes A/B e otimizações.",
-    Icon: TrendingUp,
-  },
-];
+const WHATS = {
+  phone: "5571992358249",
+  text: "Oi%2C%20quero%20passar%20pelo%20processo%20da%20Yamaji%20pra%20melhorar%20meu%20neg%C3%B3cio.%20Pode%20me%20explicar%3F",
+  utm: "utm_source=site&utm_medium=cta&utm_campaign=process",
+};
+const waLink = `https://wa.me/${WHATS.phone}?text=${WHATS.text}&${WHATS.utm}`;
 
-export default function ProcessSection() {
+export default function Process() {
+  const steps = [
+    {
+      title: "1. Diagnóstico",
+      desc: "Descobrimos onde seu site e anúncios estão perdendo clientes. Você recebe um plano visual do que mudar primeiro.",
+    },
+    {
+      title: "2. Execução",
+      desc: "Criamos o site otimizado, anúncios com a oferta certa e configuramos a IA pra responder sozinha no WhatsApp.",
+    },
+    {
+      title: "3. Escala",
+      desc: "Acompanhamos semanalmente e ajustamos campanhas pra aumentar resultados mês a mês.",
+    },
+  ];
+
   return (
-    <section id="processo" className="bg-bg">
-      <div className="mx-auto max-w-container px-6 py-16">
-        <h2 className="text-center font-display text-3xl md:text-4xl text-fg">
-          Nosso Processo
+    <section
+      id="processo"
+      className="relative border-t border-white/10 bg-white/5"
+      aria-labelledby="process-title"
+      data-section="process"
+    >
+      <div className="mx-auto max-w-7xl px-4 py-12 md:py-16">
+        <h2
+          id="process-title"
+          className="text-2xl md:text-3xl font-bold text-center"
+        >
+          Como entregamos resultado
         </h2>
+        <p className="text-center text-white/70 mt-2">
+          Em 3 etapas simples: entender, construir e escalar com acompanhamento
+          real pelo WhatsApp.
+        </p>
 
-        <div className="relative mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {/* glow de fundo sutil */}
-          <div
-            aria-hidden
-            className="pointer-events-none absolute -z-10 left-1/2 top-1/2 h-[520px] w-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/10 blur-[120px]"
-          />
-          {steps.map(({ title, desc, Icon }) => (
-            <div
-              key={title}
-              className="group rounded-2xl border border-white/10 bg-card p-6 transition hover:border-accent/60 hover:shadow-[0_0_24px_rgba(0,255,163,0.18)]"
-            >
-              <div className="flex items-start gap-4">
-                <div className="rounded-xl border border-white/10 bg-white/5 p-3 text-accent">
-                  <Icon className="h-6 w-6" />
-                </div>
-                <div>
-                  <h3 className="font-display text-lg text-fg">{title}</h3>
-                  <p className="mt-1 text-sm text-muted">{desc}</p>
-                </div>
-              </div>
-            </div>
+        <ol className="mt-8 grid gap-6 md:grid-cols-3" role="list">
+          {steps.map((s) => (
+            <li key={s.title} role="listitem">
+              <Card className="bg-[#0E1319] border-white/10 hover:border-teal-400/20 transition">
+                <CardContent className="p-6">
+                  <h3 className="font-semibold text-lg text-teal-300">
+                    {s.title}
+                  </h3>
+                  <p className="text-white/80 text-sm mt-2 leading-relaxed">
+                    {s.desc}
+                  </p>
+                </CardContent>
+              </Card>
+            </li>
           ))}
-        </div>
+        </ol>
 
-        <div className="mt-10 flex justify-center">
+        {/* CTA final — leva direto ao WhatsApp */}
+        <div className="mt-8 flex justify-center">
           <a
-            href="#contato"
-            className="rounded-xl bg-gradient-to-r from-accent to-accent2 px-7 py-3 font-semibold text-black shadow-lg shadow-accent/30 transition hover:scale-105 hover:shadow-[0_0_28px_rgba(0,255,163,0.85)]"
+            href={waLink}
+            target="_blank"
+            rel="noopener"
+            data-cta="whatsapp"
+            data-label="Process - Quero passar por esse processo"
+            className="inline-flex items-center gap-2 rounded-xl bg-teal-400/95 hover:bg-teal-400 px-5 py-3 text-sm font-semibold text-[#0B0F14] focus-visible:ring-2 focus-visible:ring-teal-300"
+            aria-label="Falar no WhatsApp sobre o processo Yamaji"
           >
-            Vamos tirar do papel
+            <MessageCircle className="h-4 w-4" />
+            Quero passar por esse processo 💬
           </a>
         </div>
       </div>

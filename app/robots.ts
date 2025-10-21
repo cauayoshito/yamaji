@@ -1,14 +1,25 @@
-// app/robots.ts
-import type { MetadataRoute } from "next";
+import { MetadataRoute } from "next";
 
 export default function robots(): MetadataRoute.Robots {
-  const base = "https://www.yamajistudio.com.br";
+  const site = "https://yamajistudio.com.br"; // troque para o domínio real
+
   return {
-    rules: {
-      userAgent: "*",
-      allow: "/",
-    },
-    sitemap: `${base}/sitemap.xml`,
-    host: base,
+    rules: [
+      {
+        userAgent: "*",
+        allow: "/",
+        disallow: [
+          "/api/",
+          "/_next/",
+          "/private/",
+          "/drafts/",
+          "/admin/",
+          "/login",
+          "/painel",
+        ],
+      },
+    ],
+    sitemap: `${site}/sitemap.xml`,
+    host: site,
   };
 }

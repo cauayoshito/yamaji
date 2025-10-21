@@ -1,72 +1,176 @@
 // components/Hero.tsx
+// Server Component (pode importar ilhas client)
+// Otimizado para leigos: copy emocional, CTA WhatsApp com UTM, microbenefícios,
+// tracking via data-cta/data-label e acessibilidade.
+
+import { cn } from "@/lib/utils";
+import Link from "next/link";
+import SeasonBadge from "./_hero/SeasonBadge";
+
+// alterne aqui: "emotional" | "pro"
+const VARIANT: "emotional" | "pro" = "emotional";
+
+// edite seu número/msg padrão uma única vez:
+const WHATS = {
+  phone: "5571992358249",
+  text: "Oi%2C%20quero%20come%C3%A7ar%20a%20vender%2024h%20com%20site%2C%20an%C3%BAncios%20e%20IA.%20Pode%20me%20ajudar%3F",
+  utm: "utm_source=site&utm_medium=cta&utm_campaign=hero",
+};
+const waLink = `https://wa.me/${WHATS.phone}?text=${WHATS.text}&${WHATS.utm}`;
+
 export default function Hero() {
+  const isEmotional = VARIANT === "emotional";
+
   return (
-    <section className="relative overflow-hidden bg-bg">
-      {/* Glows de fundo (não interferem no foco/semântica) */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute left-1/2 -top-[20%] h-[520px] w-[520px] -translate-x-1/2 rounded-full bg-accent/20 blur-[120px] motion-safe:animate-yamajiPulse" />
-        <div className="absolute -right-[10%] -bottom-[10%] h-[420px] w-[420px] rounded-full bg-accent2/20 blur-[120px] motion-safe:animate-yamajiFloat" />
-      </div>
+    <section
+      className="relative overflow-hidden"
+      aria-label="Abertura e oferta principal"
+    >
+      <BGGrid />
 
-      <div className="relative mx-auto max-w-container px-6 py-24 text-center md:py-28">
-        {/* Badge topo */}
-        <span className="badge uppercase tracking-wide text-[12px]">
-          <span className="relative inline-flex h-1.5 w-1.5 items-center justify-center mr-1.5">
-            <span className="absolute inline-block h-3 w-3 rounded-full bg-accent/30 blur-[6px]" />
-            <span className="relative inline-block h-1.5 w-1.5 rounded-full bg-accent motion-safe:animate-pulse" />
-          </span>
-          design estratégico • seo • conversão
-        </span>
-
-        {/* Headline */}
-        <h1 className="mt-6 font-display text-4xl leading-tight sm:text-5xl md:text-6xl">
-          <span className="bg-gradient-to-r from-fg via-fg to-fg/70 bg-clip-text text-transparent [text-shadow:_0_0_18px_rgba(0,255,163,0.22)]">
-            Sites que impressionam, conectam
-          </span>
-          <br className="hidden sm:block" />
-          <span className="bg-gradient-to-r from-accent via-accent2 to-fg bg-clip-text text-transparent">
-            &nbsp;e geram resultados reais.
-          </span>
-        </h1>
-
-        {/* Subtítulo */}
-        <p className="mx-auto mt-5 max-w-2xl text-[17px] leading-relaxed text-muted">
-          Identidade forte, UX clara e SEO que ranqueia. Sem enrolação,{" "}
-          <span className="text-fg">foco em vendas</span>.
-        </p>
-
-        {/* CTAs */}
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-          <a
-            href="#contato"
-            className="btn btn-primary"
-            aria-label="Falar com a Yamaji pelo formulário de contato"
+      <div className="relative mx-auto max-w-7xl px-4 pt-12 pb-14 md:pt-24 md:pb-24">
+        <div className="max-w-3xl">
+          {/* Headline */}
+          <h1
+            className={cn(
+              "font-extrabold tracking-tight",
+              "[font-size:_clamp(1.9rem,4.2vw,3.25rem)] md:[font-size:_clamp(2.5rem,3.4vw,3.75rem)] leading-[1.08]"
+            )}
           >
-            Falar com a Yamaji
-          </a>
-          <a
-            href="#cases"
-            className="btn btn-secondary"
-            aria-label="Ver nossos cases de projetos"
-          >
-            Ver nossos cases
-          </a>
-        </div>
+            {isEmotional ? (
+              <>
+                Transforme seu <span className="text-teal-400">celular</span>{" "}
+                numa máquina de vendas{" "}
+                <span className="text-cyan-300">
+                  mesmo sem entender de marketing
+                </span>
+                .
+              </>
+            ) : (
+              <>
+                Sites que <span className="text-teal-400">vendem</span>,
+                anúncios que
+                <span className="text-cyan-300"> convertem</span> e IA que fecha{" "}
+                <span className="text-teal-400">24/7</span>.
+              </>
+            )}
+          </h1>
 
-        {/* Mini social proof */}
-        <div className="mt-10 flex items-center justify-center gap-6 text-sm text-muted">
-          <div className="flex items-center gap-2">
-            <span className="h-2 w-2 rounded-full bg-accent shadow-[0_0_10px_#00FFA3]" />
-            Entrega rápida e suporte humano real
+          {/* Subcopy */}
+          <p className="mt-3 md:mt-4 text-white/80 max-w-2xl text-[0.95rem] md:text-base">
+            {isEmotional ? (
+              <>
+                A Yamaji monta para você um sistema simples:{" "}
+                <b>site que atrai</b>, <b>anúncios que trazem gente</b> e{" "}
+                <b>IA que responde sozinha</b> no WhatsApp. Você foca no seu
+                trabalho nós cuidamos do resto.
+              </>
+            ) : (
+              <>
+                Construímos um funil completo de <b>aquisição</b> e{" "}
+                <b>conversão</b> com WhatsApp-first: páginas rápidas, criativos
+                performáticos e automações que qualificam e fecham leads 24/7.
+              </>
+            )}
+          </p>
+
+          {/* Urgência sazonal */}
+          <div className="mt-3">
+            <SeasonBadge />
           </div>
-          <span className="sr-only">|</span>
-          <div className="hidden h-3 w-px bg-white/10 sm:block" aria-hidden />
-          <div className="hidden items-center gap-2 sm:flex">
-            <span className="h-2 w-2 rounded-full bg-accent2 shadow-[0_0_10px_#4A90E2]" />
-            Método próprio focado em conversão
+
+          {/* CTAs */}
+          <div className="mt-5 md:mt-6 flex flex-col sm:flex-row gap-3 sm:gap-4">
+            <a
+              href={waLink}
+              target="_blank"
+              rel="noopener"
+              data-cta="whatsapp"
+              data-label="Hero - Quero vender 24h"
+              className={cn(
+                "inline-flex items-center justify-center rounded-xl px-5 py-3 md:px-6 md:py-3.5",
+                "text-[0.95rem] md:text-base font-semibold",
+                "bg-teal-400/95 text-[#0B0F14] hover:bg-teal-400 shadow-lg shadow-teal-400/10",
+                "focus-visible:ring-2 focus-visible:ring-teal-300"
+              )}
+              aria-label="Falar no WhatsApp agora para começar a vender 24 horas"
+            >
+              {isEmotional ? "Quero vender 24h 💸" : "Falar no WhatsApp"}
+            </a>
+
+            <a
+              href="#cases"
+              data-cta="cta"
+              data-label="Hero - Ver exemplos reais"
+              className="inline-flex items-center justify-center rounded-xl border border-white/15 bg-white/5 hover:bg-white/10 px-5 py-3 md:px-6 md:py-3.5 text-[0.95rem] md:text-base font-semibold focus-visible:ring-2 focus-visible:ring-teal-300"
+              aria-label="Ver exemplos reais de resultados"
+            >
+              Ver exemplos reais ⚡
+            </a>
+          </div>
+
+          {/* Microbenefícios escaneáveis (leigo-friendly) */}
+          <ul className="mt-5 grid gap-2 text-[0.95rem] md:text-sm text-white/75">
+            <li>✅ Sem precisar entender de marketing</li>
+            <li>⏱️ Resultados em poucos dias</li>
+            <li>📞 Suporte humano pelo WhatsApp</li>
+            <li>🧠 Automação que responde sozinha 24/7</li>
+          </ul>
+
+          {/* Chips de atalho (cross-sell leve) */}
+          <div className="mt-5 flex flex-wrap gap-2 text-sm">
+            <Link
+              href="/servicos/sites"
+              className="rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 hover:bg-white/10"
+            >
+              Sites que vendem
+            </Link>
+            <Link
+              href="/servicos/ads"
+              className="rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 hover:bg-white/10"
+            >
+              Anúncios que convertem
+            </Link>
+            <Link
+              href="/servicos/ia-automacao"
+              className="rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 hover:bg-white/10"
+            >
+              IA que fecha 24/7
+            </Link>
           </div>
         </div>
       </div>
     </section>
+  );
+}
+
+function BGGrid() {
+  return (
+    <div className="pointer-events-none absolute inset-0">
+      {/* blur menor em mobile para reduzir paint cost */}
+      <div className="absolute -left-40 -top-40 h-80 w-80 rounded-full bg-cyan-500/20 sm:blur-xl md:blur-3xl" />
+      <div className="absolute right-0 top-20 h-80 w-[26rem] rounded-full bg-teal-500/20 sm:blur-xl md:blur-3xl" />
+      <svg
+        className="absolute inset-0 -z-10 h-full w-full opacity-[0.06] md:opacity-[0.08]"
+        aria-hidden
+      >
+        <defs>
+          <pattern
+            id="grid"
+            width="32"
+            height="32"
+            patternUnits="userSpaceOnUse"
+          >
+            <path
+              d="M 32 0 L 0 0 0 32"
+              fill="none"
+              stroke="white"
+              strokeWidth="0.5"
+            />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#grid)" />
+      </svg>
+    </div>
   );
 }
