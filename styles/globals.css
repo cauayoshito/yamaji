@@ -1,0 +1,163 @@
+/* -------------------- */
+/* Fonts                */
+/* -------------------- */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700;800&display=swap");
+
+/* Tailwind layers */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* -------------------- */
+/* Root + Resets        */
+/* -------------------- */
+:root {
+  color-scheme: dark;
+  --accent: #00ffb2; /* mantém compatibilidade com seu CSS antigo */
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+html,
+body {
+  @apply bg-bg text-fg antialiased;
+}
+
+/* Usa as famílias configuradas no tailwind.config (font-sans/display) */
+h1,
+h2,
+h3,
+.title {
+  @apply font-display;
+}
+
+/* Seleção de texto com cor da marca */
+::selection {
+  background: rgba(0, 255, 163, 0.25); /* accent */
+  color: #ffffff;
+}
+
+/* Estados de foco acessíveis (para links/botões) */
+:where(a, button, [role="button"], input, select, textarea):focus-visible {
+  @apply outline-none ring-2 ring-accent/60;
+}
+
+/* Compensa header fixo ao navegar por âncoras */
+section[id],
+[data-anchor] {
+  scroll-margin-top: 6rem; /* ~24 do Tailwind (scroll-mt-24) */
+}
+
+/* -------------------- */
+/* Helpers / Utilities  */
+/* -------------------- */
+.container {
+  @apply max-w-container mx-auto px-6;
+}
+.section {
+  @apply py-24 md:py-32;
+}
+
+.h1 {
+  @apply text-[32px] leading-tight md:text-6xl font-bold tracking-tight;
+}
+.h2 {
+  @apply text-3xl md:text-4xl font-bold;
+}
+.h3 {
+  @apply text-xl md:text-2xl font-semibold;
+}
+
+.lead {
+  @apply mt-4 text-lg text-muted max-w-2xl;
+}
+
+/* Chips e Badges */
+.chip {
+  @apply inline-flex items-center rounded-full border border-white/10 px-3 py-1 text-sm text-muted;
+}
+.badge {
+  @apply inline-flex items-center px-2 py-0.5 rounded bg-accent/10 text-accent text-xs font-medium;
+}
+
+/* Links padrão */
+.link {
+  @apply underline decoration-white/30 underline-offset-4 hover:decoration-accent;
+}
+
+/* -------------------- */
+/* Botões (variantes)   */
+/* -------------------- */
+.btn {
+  @apply inline-flex items-center gap-2 rounded-md border border-white/15 px-4 py-2 text-sm font-semibold transition
+         hover:bg-white/5 disabled:opacity-50 disabled:cursor-not-allowed;
+}
+
+.btn-primary {
+  @apply border-0 text-black shadow-[0_10px_30px_rgba(0,255,163,0.15)]
+         bg-gradient-to-r from-accent to-accent2
+         hover:scale-105 hover:shadow-[0_0_30px_rgba(0,255,163,0.85)];
+}
+
+.btn-secondary {
+  @apply border-white/20 bg-white/5 text-fg hover:bg-white/10 hover:border-white/30;
+}
+
+.btn-ghost {
+  @apply border-transparent bg-transparent text-fg hover:bg-white/5;
+}
+
+/* -------------------- */
+/* Cards / Surfaces     */
+/* -------------------- */
+.card {
+  @apply rounded-2xl border border-white/10 bg-card p-6;
+}
+
+.card-hover {
+  @apply transition hover:border-accent/70 hover:shadow-[0_0_24px_rgba(0,255,163,0.18)] hover:bg-white/[0.06];
+}
+
+/* efeito “vidro” sutil para blocos destacados */
+.glass {
+  @apply bg-white/[0.06] backdrop-blur-md border border-white/10;
+}
+
+/* -------------------- */
+/* Tabelas (opcional)   */
+/* -------------------- */
+.table {
+  @apply w-full border-separate border-spacing-0 rounded-2xl border border-white/10 bg-card;
+}
+.table thead th {
+  @apply p-4 text-left text-sm font-medium text-fg;
+}
+.table tbody tr {
+  @apply border-t border-white/10;
+}
+.table td {
+  @apply p-4 text-sm text-fg;
+}
+.table-zebra tbody tr:nth-child(even) {
+  @apply bg-white/[0.03];
+}
+
+/* -------------------- */
+/* Imagens e mídia      */
+/* -------------------- */
+img,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* -------------------- */
+/* Footer e pequenos    */
+/* -------------------- */
+.small-muted {
+  @apply text-xs text-muted;
+}
