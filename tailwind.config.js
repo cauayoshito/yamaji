@@ -12,21 +12,23 @@ module.exports = {
       colors: {
         bg: "#0A0A0B", // fundo dark
         fg: "#F3F5F7", // texto principal
-        muted: "#9EA3A9", // texto secundário
+        muted: "#A7ADB5", // texto secundário
         accent: "#00FFA3", // neon green (principal)
-        accent2: "#4A90E2", // tech blue (secundária)
-        card: "#131417", // fundo de cards/blocos
+        accent2: "#5B2DFF", // roxo profundo metálico
+        card: "#121216", // fundo de cards/blocos
+        surface: "#0F1014",
       },
 
       // Tipografias (configure no globals.css com @import das fontes)
       fontFamily: {
-        sans: ["Inter", "system-ui", "sans-serif"],
-        display: ["Montserrat", "system-ui", "sans-serif"],
+        sans: ["var(--font-inter)", "system-ui", "sans-serif"],
+        display: ["var(--font-montserrat)", "system-ui", "sans-serif"],
       },
 
       // Larguras e container
       maxWidth: {
         container: "1200px",
+        content: "1080px",
       },
 
       // Radius e sombras
@@ -35,7 +37,8 @@ module.exports = {
         "2xl": "1.5rem",
       },
       boxShadow: {
-        glow: "0 0 20px rgba(0, 255, 163, 0.40)", // brilho neon para hovers
+        glow: "0 0 20px rgba(0, 255, 163, 0.25)",
+        glowSoft: "0 0 40px rgba(91, 45, 255, 0.18)",
       },
 
       // Animações usadas no Hero (glows)
@@ -57,10 +60,20 @@ module.exports = {
             opacity: "1",
           },
         },
+        yamajiDrift: {
+          "0%,100%": { transform: "translateY(0px)" },
+          "50%": { transform: "translateY(-8px)" },
+        },
+        fadeUp: {
+          "0%": { opacity: "0", transform: "translateY(10px)" },
+          "100%": { opacity: "1", transform: "translateY(0px)" },
+        },
       },
       animation: {
         yamajiPulse: "yamajiPulse 9s ease-in-out infinite",
         yamajiFloat: "yamajiFloat 12s ease-in-out infinite",
+        yamajiDrift: "yamajiDrift 10s ease-in-out infinite",
+        fadeUp: "fadeUp 0.6s ease-out both",
       },
     },
   },
