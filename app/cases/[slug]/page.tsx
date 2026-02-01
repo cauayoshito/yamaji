@@ -11,11 +11,14 @@ import Footer from "@/components/site/Footer";
 import { cases } from "@/data/cases";
 
 type PageProps = {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 };
 
-export function generateMetadata({ params }: PageProps): Metadata {
-  const item = cases.find((caseItem) => caseItem.slug === params.slug);
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const item = cases.find((caseItem) => caseItem.slug === slug);
   if (!item) {
     return { title: "Case não encontrado" };
   }
@@ -25,8 +28,9 @@ export function generateMetadata({ params }: PageProps): Metadata {
   };
 }
 
-export default function CaseDetailPage({ params }: PageProps) {
-  const item = cases.find((caseItem) => caseItem.slug === params.slug);
+export default async function CaseDetailPage({ params }: PageProps) {
+  const { slug } = await params;
+  const item = cases.find((caseItem) => caseItem.slug === slug);
   if (!item) {
     notFound();
   }
