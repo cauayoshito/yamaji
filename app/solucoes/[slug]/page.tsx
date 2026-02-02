@@ -9,22 +9,31 @@ import Footer from "@/components/site/Footer";
 import { solutions } from "@/data/solutions";
 
 type PageProps = {
-  params: { slug: string };
+  params: Promise<{
+    slug: string;
+  }>;
 };
 
-export function generateMetadata({ params }: PageProps): Metadata {
-  const solution = solutions.find((item) => item.slug === params.slug);
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
+  const { slug } = await params;
+
+  const solution = solutions.find((item) => item.slug === slug);
   if (!solution) {
     return { title: "Solução não encontrada" };
   }
+
   return {
     title: solution.title,
     description: solution.description,
   };
 }
 
-export default function SolutionDetailPage({ params }: PageProps) {
-  const solution = solutions.find((item) => item.slug === params.slug);
+export default async function SolutionDetailPage({ params }: PageProps) {
+  const { slug } = await params;
+
+  const solution = solutions.find((item) => item.slug === slug);
   if (!solution) {
     notFound();
   }
@@ -51,6 +60,7 @@ export default function SolutionDetailPage({ params }: PageProps) {
                   ))}
                 </ul>
               </GlassCard>
+
               <GlassCard className="space-y-4">
                 <h3 className="text-lg font-semibold">Entregáveis</h3>
                 <ul className="space-y-2 text-sm text-muted">
