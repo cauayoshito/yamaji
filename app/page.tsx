@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import BackgroundGlow from "@/components/ui/BackgroundGlow";
-import Badge from "@/components/ui/badge";
+import { Badge } from "@/components/ui/badge";
 import Container from "@/components/ui/Container";
 import GlassCard from "@/components/ui/GlassCard";
 import IconBadge from "@/components/ui/IconBadge";
