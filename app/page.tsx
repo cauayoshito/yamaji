@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import BackgroundGlow from "@/components/ui/BackgroundGlow";
-import Badge from "@/components/ui/Badge";
+import Badge from "@/components/ui/badge";
 import Container from "@/components/ui/Container";
 import GlassCard from "@/components/ui/GlassCard";
 import IconBadge from "@/components/ui/IconBadge";
@@ -163,9 +163,7 @@ export default function Page() {
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
               {solutions.map((solution, index) => (
                 <Reveal key={solution.slug} delay={index * 80}>
-                  <GlassCard
-                    className="flex h-full flex-col gap-6 p-6 md:p-7 transition duration-300 hover:-translate-y-1 hover:border-accent/50"
-                  >
+                  <GlassCard className="flex h-full flex-col gap-6 p-6 md:p-7 transition duration-300 hover:-translate-y-1 hover:border-accent/50">
                     <IconBadge>{String(index + 1).padStart(2, "0")}</IconBadge>
                     <div className="space-y-3">
                       <h3 className="text-lg font-semibold">
@@ -466,7 +464,10 @@ export default function Page() {
                   produto — com performance, dados e automação.
                 </p>
                 <div className="flex flex-wrap gap-4">
-                  <PrimaryButton href="/contato" label="Agende uma consultoria" />
+                  <PrimaryButton
+                    href="/contato"
+                    label="Agende uma consultoria"
+                  />
                   <SecondaryButton
                     href="https://wa.me/5571992358249"
                     label="WhatsApp"
