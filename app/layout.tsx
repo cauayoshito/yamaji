@@ -1,36 +1,49 @@
 // app/layout.tsx
 import type { Metadata } from "next";
 import Script from "next/script";
+import { Inter, Montserrat } from "next/font/google";
 import "@/styles/globals.css";
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
+
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  variable: "--font-montserrat",
+  display: "swap",
+});
 
 const SITE = {
   name: "Yamaji Studio",
-  domain: "TODO_yamaji.site", // ex: yamaji.studio
-  url: "https://TODO_yamaji.site",
+  domain: "yamajistudio.com.br",
+  url: "https://yamajistudio.com.br",
   description:
-    "Transforme seu celular em uma máquina de vendas. Sites, anúncios e IA que vendem 24/7 — mesmo que você não entenda nada de marketing.",
-  logo: "/logo.png", // ajuste se quiser OG image com logo
+    "Sistemas, automações e experiências digitais premium para negócios que querem operar como empresa tech.",
+  logo: "/logo.png",
   tel: "+55 71 99235-8249",
   email: "yamaji.studio@gmail.com",
   sameAs: [
-    "https://www.instagram.com/TODO_user",
-    "https://www.linkedin.com/company/TODO_company",
+    "https://www.instagram.com/yamaji.studio",
+    "https://www.linkedin.com/company/yamaji-studio",
   ],
   address: {
-    street: "Rua exemplo, 123",
+    street: "Rua Macário de Castro, 92",
     city: "Salvador",
     region: "BA",
-    postal: "40000-000",
+    postal: "41940-700",
     country: "BR",
   },
-  plausibleDomain: "TODO_yamaji.site", // mesmo do domínio
+  plausibleDomain: "yamajistudio.com.br",
   ga4: "G-TODO12345",
   metaPixel: "TODO_PIXEL_ID",
 };
 
 export const metadata: Metadata = {
   title: {
-    default: "Yamaji Studio — Site, Anúncios e IA que vendem 24/7",
+    default: "Yamaji Studio — Sistemas, Automação e Presença Digital Premium",
     template: "%s • Yamaji Studio",
   },
   description: SITE.description,
@@ -39,7 +52,7 @@ export const metadata: Metadata = {
     canonical: SITE.url,
   },
   openGraph: {
-    title: "Yamaji Studio — Transforme cliques em clientes",
+    title: "Yamaji Studio — Estrutura digital para empresas tech",
     description: SITE.description,
     url: SITE.url,
     siteName: SITE.name,
@@ -48,7 +61,7 @@ export const metadata: Metadata = {
         url: "/og.jpg", // crie uma imagem 1200x630
         width: 1200,
         height: 630,
-        alt: "Yamaji Studio — Sites que vendem, Anúncios que convertem e IA 24/7",
+        alt: "Yamaji Studio — Sistemas, automações e presença digital premium",
       },
     ],
     locale: "pt_BR",
@@ -56,7 +69,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Yamaji Studio — Transforme cliques em clientes",
+    title: "Yamaji Studio — Estrutura digital para empresas tech",
     description: SITE.description,
     images: ["/og.jpg"],
   },
@@ -68,7 +81,10 @@ export const metadata: Metadata = {
     icon: "/favicon.ico",
     apple: "/apple-touch-icon.png",
   },
-  themeColor: "#0B0F14",
+};
+
+export const viewport = {
+  themeColor: "#0A0A0B",
 };
 
 export default function RootLayout({
@@ -77,7 +93,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="pt-BR">
+    <html
+      lang="pt-BR"
+      className={`${inter.variable} ${montserrat.variable}`}
+    >
       <head>
         {/* Preconnects para performance */}
         <link rel="preconnect" href="https://plausible.io" />
@@ -119,7 +138,7 @@ export default function RootLayout({
         />
       </head>
 
-      <body className="bg-[#0B0F14] text-white">
+      <body className="bg-bg text-fg antialiased">
         {children}
 
         {/* --------- Analytics --------- */}
